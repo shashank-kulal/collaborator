@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">Website Analytics Dashboard</h1>
+            <p class="lead">Explore and analyze website data with comprehensive filters and visualizations.</p>
+            <hr class="my-4">
+            <p>This application provides insights into website metrics, traffic sources, SEO performance, and more.</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('website_list') }}" role="button">Explore Websites</a>
+            <a class="btn btn-outline-primary btn-lg" href="{{ url_for('charts') }}" role="button">View Charts</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-globe fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Website Directory</h5>
+                <p class="card-text">Browse through all websites with advanced filtering options.</p>
+                <a href="{{ url_for('website_list') }}" class="btn btn-primary">View Websites</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                <h5 class="card-title">SEO Metrics</h5>
+                <p class="card-text">Analyze SEO performance across different metrics and parameters.</p>
+                <a href="{{ url_for('charts') }}" class="btn btn-success">View Charts</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-map-marker-alt fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Traffic Analytics</h5>
+                <p class="card-text">Explore geographical distribution and traffic sources.</p>
+                <a href="{{ url_for('charts') }}" class="btn btn-info">Explore Traffic</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

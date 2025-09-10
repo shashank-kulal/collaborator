@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Analytics Charts</h2>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Top Websites by Ahrefs Domain Rating</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="ahrefsDrChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Top Websites by Ahrefs Traffic</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="ahrefsTrafficChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Top Websites by Moz Domain Authority</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="mozDaChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch SEO metrics data
+    fetch('{{ url_for("api_seo_metrics") }}')
+        .then(response => response.json())
+        .then(data => {
+            // Ahrefs DR Chart
+            const drCtx = document.getElementById('ahrefsDrChart').getContext('2d');
+            new Chart(drCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.ahrefs_dr.names,
+                    datasets: [{
+                        label: 'Ahrefs Domain Rating',
+                        data: data.ahrefs_dr.values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+            
+            // Ahrefs Traffic Chart
+            const trafficCtx = document.getElementById('ahrefsTrafficChart').getContext('2d');
+            new Chart(trafficCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.ahrefs_traffic.names,
+                    datasets: [{
+                        label: 'Ahrefs Traffic',
+                        data: data.ahrefs_traffic.values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y'
+                }
+            });
+            
+            // Moz DA Chart
+            const daCtx = document.getElementById('mozDaChart').getContext('2d');
+            new Chart(daCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.da_moz.names,
+                    datasets: [{
+                        label: 'Moz Domain Authority',
+                        data: data.da_moz.values,
+                        backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        });
+});
+</script>
+{% endblock %}
